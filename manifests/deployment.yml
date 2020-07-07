@@ -1,0 +1,16 @@
+apiVersion : apps/v1beta1
+kind: Deployment
+metadata:
+  name: northpointcarts 
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: northpointcarts 
+    spec:
+      containers:
+        - name: northpointcarts 
+          image: kubeinnovationacr.azurecr.io/northpointcarts
+          ports:
+          - containerPort: 80
