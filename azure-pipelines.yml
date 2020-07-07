@@ -14,7 +14,7 @@ variables:
   dockerRegistryServiceConnection: '53b33d96-1674-4ad9-afb0-7b50c9110974'
   imageRepository: 'carts'
   containerRegistry: 'KubeInovACR'
-  dockerfilePath: '**/Dockerfile'
+  dockerfilePath: '**/docker/carts/Dockerfile'
   tag: '$(Build.BuildId)'
   imagePullSecret: 'kubeinnovationacr9d4c-auth'
 
