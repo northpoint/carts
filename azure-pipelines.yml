@@ -27,8 +27,15 @@ resources:
 stages:
 - stage: DockerBuildPush
   displayName: Docker Build & Push stage
-  jobs:  
-  - template: /pipeline-templates/java-builddeploy.yaml@microservicesdemo  # Template reference
+  jobs:
+  - task: Maven@3
+      displayName: 'Maven: building Java app'
+      inputs:
+        mavenPomFile: '../pom.xml'
+        jdkVersionOption: 1.8
+        goals: package
+
+  - template: /pipeline-templates/docker-builddeploy-pipeline.yaml@microservicesdemo  # Template reference
     parameters:
       tag: $(tag)
       acrRepo: catalogue
