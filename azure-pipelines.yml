@@ -28,7 +28,7 @@ stages:
 - stage: DockerBuildPush
   displayName: Docker Build & Push stage
   jobs:
-  - template: /pipeline-templates/java-builddeploy.yaml@microservicesdemo
+  - template: /pipeline-templates/java-build.yaml@microservicesdemo
     parameters:
       mavenPomFile: 'pom.xml'
       jdkVersionOption: 1.8
