@@ -34,7 +34,6 @@ stages:
       mavenPomFile: 'pom.xml'
       jdkVersionOption: 1.8
       goals: package
-      buildContext:
 
   - job: DockerBuildPush 
     dependsOn: JavaBuild
@@ -42,9 +41,9 @@ stages:
   - template: /pipeline-templates/docker-builddeploy-pipeline.yaml@microservicesdemo  # Template reference
     parameters:
       tag: $(tag)
-      acrRepo: catalogue
+      acrRepo: carts
       dockerfilePath: $(dockerfilePath)
-      buildContext:
+      buildContext: './docker/carts/'
   
       
 - stage: HelmDeplo
@@ -52,5 +51,5 @@ stages:
   jobs:
   - template: /pipeline-templates/helm-deploy-pipeline.yaml@microservicesdemo
     parameters:
-      serviceName: catalogue
+      serviceName: carts
       image: $(acrRepo):$(tag)
