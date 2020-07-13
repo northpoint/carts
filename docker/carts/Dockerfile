@@ -3,7 +3,7 @@ FROM weaveworksdemos/msd-java:jre-latest
 WORKDIR /usr/src/app
 RUN ls
 COPY . /app
-COPY ./target/*.jar ./app.jar
+COPY ../../target/*.jar ./app.jar
 
 
 RUN	chown -R ${SERVICE_USER}:${SERVICE_GROUP} ./app.jar
