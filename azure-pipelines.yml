@@ -10,7 +10,7 @@ variables:
 
  # Container registry service connection established during pipeline creation
   dockerfilePath: '**/docker/carts/Dockerfile'
-  buildContext: '**/docker/carts/'
+  buildContext: '*/docker/carts/'
   tag: '$(Build.BuildId)'
   acrRepo: catalogue
 
