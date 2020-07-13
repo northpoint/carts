@@ -13,6 +13,7 @@ variables:
   buildContext: './docker/carts/'
   tag: '$(Build.BuildId)'
   acrRepo: catalogue
+  serviceName: carts
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -26,8 +27,8 @@ resources:
       ref: femi-azure-pipelines
 
 stages:
-- stage: JavaDockerBuildPush
-  displayName: Java/Docker Build & Push stage
+- stage: Maven Build
+  displayName: Maven Build Stage
   jobs:
   - job: JavaBuild 
   - template: /pipeline-templates/java-build.yaml@microservicesdemo
@@ -36,9 +37,10 @@ stages:
       jdkVersionOption: 1.8
       goals: package
 
+- stage: DockerBuildPush 
+  displayName: Docker Build & Push Stage
+  jobs:
   - job: DockerBuildPush 
-    dependsOn: JavaBuild
-    condition: succeeded()
   - template: /pipeline-templates/docker-builddeploy-pipeline.yaml@microservicesdemo  # Template reference
     parameters:
       tag: $(tag)
@@ -52,5 +54,5 @@ stages:
   jobs:
   - template: /pipeline-templates/helm-deploy-pipeline.yaml@microservicesdemo
     parameters:
-      serviceName: carts
+      serviceName: $(serviceName)
       image: $(acrRepo):$(tag)
