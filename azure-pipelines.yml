@@ -43,7 +43,7 @@ stages:
       tag: $(tag)
       acrRepo: carts
       dockerfilePath: $(dockerfilePath)
-      buildContext: './docker/carts/'
+      buildContext: '**/docker/carts/'
   
       
 - stage: HelmDeplo
