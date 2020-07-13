@@ -38,7 +38,7 @@ stages:
 
   - job: DockerBuildPush 
     dependsOn: JavaBuild
-    condition: succedded()
+    condition: succeeded()
   - template: /pipeline-templates/docker-builddeploy-pipeline.yaml@microservicesdemo  # Template reference
     parameters:
       tag: $(tag)
