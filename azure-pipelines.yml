@@ -25,9 +25,10 @@ resources:
       ref: femi-azure-pipelines
 
 stages:
-- stage: DockerBuildPush
-  displayName: Docker Build & Push stage
+- stage: JavaDockerBuildPush
+  displayName: Java/Docker Build & Push stage
   jobs:
+  - job: JavaBuild 
   - template: /pipeline-templates/java-build.yaml@microservicesdemo
     parameters:
       mavenPomFile: 'pom.xml'
@@ -35,6 +36,9 @@ stages:
       goals: package
       buildContext: $(Build.Repository.LocalPath) 
 
+  - job: DockerBuildPush 
+    dependsOn: JavaBuild
+    condition: succedded()
   - template: /pipeline-templates/docker-builddeploy-pipeline.yaml@microservicesdemo  # Template reference
     parameters:
       tag: $(tag)
