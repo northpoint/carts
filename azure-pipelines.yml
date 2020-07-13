@@ -34,6 +34,7 @@ stages:
       mavenPomFile: 'pom.xml'
       jdkVersionOption: 1.8
       goals: package
+      buildContext:
 
   - job: DockerBuildPush 
     dependsOn: JavaBuild
@@ -43,6 +44,7 @@ stages:
       tag: $(tag)
       acrRepo: catalogue
       dockerfilePath: $(dockerfilePath)
+      buildContext:
   
       
 - stage: HelmDeplo
