@@ -22,18 +22,26 @@ resources:
       type: github
       name: northpoint/microservices-demo
       endpoint: github-svcconn
-      ref: kevin-azure-pipelines
+      ref: femi-azure-pipelines
 
 stages:
 - stage: DockerBuildPush
   displayName: Docker Build & Push stage
-  jobs:  
+  jobs:
+  - template: /pipeline-templates/java-build.yaml@microservicesdemo
+    parameters:
+      mavenPomFile: 'pom.xml'
+      jdkVersionOption: 1.8
+      goals: package
+      buildContext: $(Build.Repository.LocalPath) 
+
   - template: /pipeline-templates/docker-builddeploy-pipeline.yaml@microservicesdemo  # Template reference
     parameters:
       tag: $(tag)
       acrRepo: catalogue
       dockerfilePath: $(dockerfilePath)
       buildContext: $(Build.Repository.LocalPath)
+  
       
 - stage: HelmDeplo
   displayName: Helm Deploy

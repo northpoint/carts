@@ -1,7 +1,10 @@
 FROM weaveworksdemos/msd-java:jre-latest
 
 WORKDIR /usr/src/app
-COPY *.jar ./app.jar
+RUN ls
+COPY . /app
+COPY ../../target/*.jar ./app.jar
+
 
 RUN	chown -R ${SERVICE_USER}:${SERVICE_GROUP} ./app.jar
 
@@ -16,8 +19,8 @@ LABEL org.label-schema.vendor="Northpoint" \
   org.label-schema.version="${BUILD_VERSION}" \
   org.label-schema.name="Socks Shop: Cart" \
   org.label-schema.description="REST API for Cart service" \
-  org.label-schema.url="https://github.com/northpoint/carts" \
-  org.label-schema.vcs-url="github.com/northpoint/carts.git" \
+  org.label-schema.url="https://github.com/northpoint/carts.git" \
+  org.label-schema.vcs-url="github.com:northpoint/carts.git" \
   org.label-schema.vcs-ref="${COMMIT}" \
   org.label-schema.schema-version="1.0"
 
