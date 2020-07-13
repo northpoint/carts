@@ -10,6 +10,7 @@ variables:
 
  # Container registry service connection established during pipeline creation
   dockerfilePath: '**/docker/carts/Dockerfile'
+  buildContext: '**/docker/carts/'
   tag: '$(Build.BuildId)'
   acrRepo: catalogue
 
@@ -43,7 +44,7 @@ stages:
       tag: $(tag)
       acrRepo: carts
       dockerfilePath: $(dockerfilePath)
-      buildContext: '/docker/carts/'
+      buildContext: $(buildContext)
   
       
 - stage: HelmDeplo
