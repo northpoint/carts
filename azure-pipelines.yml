@@ -22,7 +22,6 @@ resources:
       type: github
       name: northpoint/microservices-demo
       endpoint: github-svcconn
-      ref: femi-azure-pipelines
 
 stages:
 - stage: MavenBuild
