@@ -10,9 +10,9 @@ variables:
 
  # Container registry service connection established during pipeline creation
   dockerfilePath: '**/docker/carts/Dockerfile'
-  buildContext: './docker/carts/'
+  buildContext: '/docker/carts/'
   tag: '$(Build.BuildId)'
-  acrRepo: catalogue
+  acrRepo: carts
   serviceName: carts
 
 pool:
@@ -44,7 +44,7 @@ stages:
   - template: /pipeline-templates/docker-builddeploy-pipeline.yaml@microservicesdemo  # Template reference
     parameters:
       tag: $(tag)
-      acrRepo: carts
+      acrRepo: $(acrRepo)
       dockerfilePath: $(dockerfilePath)
       buildContext: $(buildContext)
   
