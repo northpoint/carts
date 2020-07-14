@@ -27,7 +27,7 @@ resources:
       ref: femi-azure-pipelines
 
 stages:
-- stage: Maven Build
+- stage: MavenBuild
   displayName: Maven Build Stage
   jobs:
   - job: JavaBuild 
