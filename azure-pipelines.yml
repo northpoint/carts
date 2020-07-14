@@ -10,9 +10,7 @@ variables:
 
  # Container registry service connection established during pipeline creation
   dockerfilePath: '**/docker/carts/Dockerfile'
-  buildContext: '/docker/carts/'
   tag: '$(Build.BuildId)'
-  acrRepo: carts
   serviceName: carts
 
 pool:
@@ -44,9 +42,10 @@ stages:
   - template: /pipeline-templates/docker-builddeploy-pipeline.yaml@microservicesdemo  # Template reference
     parameters:
       tag: $(tag)
-      acrRepo: $(acrRepo)
+      acrRepo: $(serviceName)
       dockerfilePath: $(dockerfilePath)
-      buildContext: $(buildContext)
+      artifact: jar
+      buildContext: $(Build.Repository.LocalPath)
   
       
 - stage: HelmDeplo
@@ -55,4 +54,4 @@ stages:
   - template: /pipeline-templates/helm-deploy-pipeline.yaml@microservicesdemo
     parameters:
       serviceName: $(serviceName)
-      image: $(acrRepo):$(tag)
+      image: $(serviceName):$(tag)
