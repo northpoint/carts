@@ -3,6 +3,10 @@
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 
+name: $(Date:yyyyMMdd)-$(Rev:r)
+# name modifies the Build.BuildNumber format used in tag
+# https://docs.microsoft.com/en-us/azure/devops/pipelines/process/run-number?view=azure-devops&tabs=yaml
+
 trigger:
 - master
 
@@ -10,7 +14,7 @@ variables:
 
  # Container registry service connection established during pipeline creation
   dockerfilePath: '**/docker/carts/Dockerfile'
-  tag: '$(Build.BuildId)'
+  tag: '$(Build.BuildNumber)'
   serviceName: carts
 
 pool:
@@ -24,20 +28,19 @@ resources:
       endpoint: github-svcconn
 
 stages:
-- stage: MavenBuild
-  displayName: Maven Build Stage
+- stage: Maven
+  displayName: Maven Scan & Build
   jobs:
-  - job: JavaBuild 
   - template: /pipeline-templates/java-build.yaml@microservicesdemo
     parameters:
       mavenPomFile: 'pom.xml'
       jdkVersionOption: 1.8
       goals: package
+      version: $(tag)
 
 - stage: DockerBuildPush 
   displayName: Docker Build & Push Stage
   jobs:
-  - job: DockerBuildPush 
   - template: /pipeline-templates/docker-builddeploy-pipeline.yaml@microservicesdemo  # Template reference
     parameters:
       tag: $(tag)
@@ -46,8 +49,7 @@ stages:
       artifact: jar
       buildContext: $(Build.Repository.LocalPath)
   
-      
-- stage: HelmDeplo
+- stage: HelmDeploy
   displayName: Helm Deploy
   jobs:
   - template: /pipeline-templates/helm-deploy-pipeline.yaml@microservicesdemo
