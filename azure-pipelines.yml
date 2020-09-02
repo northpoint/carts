@@ -26,6 +26,7 @@ resources:
       type: github
       name: northpoint/microservices-demo
       endpoint: github-svcconn
+      ref: kevin-ingress-fix
 
 stages:
   
@@ -35,4 +36,4 @@ stages:
   - template: /pipeline-templates/helm-deploy-pipeline.yaml@microservicesdemo
     parameters:
       serviceName: $(serviceName)
-      image: $(serviceName):$(tag)
+      image: $(serviceName):20200901-1
