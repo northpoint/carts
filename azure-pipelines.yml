@@ -28,26 +28,6 @@ resources:
       endpoint: github-svcconn
 
 stages:
-- stage: Maven
-  displayName: Maven Scan & Build
-  jobs:
-  - template: /pipeline-templates/java-build.yaml@microservicesdemo
-    parameters:
-      mavenPomFile: 'pom.xml'
-      jdkVersionOption: 1.8
-      goals: package
-      version: $(tag)
-
-- stage: DockerBuildPush 
-  displayName: Docker Build & Push Stage
-  jobs:
-  - template: /pipeline-templates/docker-builddeploy-pipeline.yaml@microservicesdemo  # Template reference
-    parameters:
-      tag: $(tag)
-      acrRepo: $(serviceName)
-      dockerfilePath: $(dockerfilePath)
-      artifact: jar
-      buildContext: $(Build.Repository.LocalPath)
   
 - stage: HelmDeploy
   displayName: Helm Deploy
